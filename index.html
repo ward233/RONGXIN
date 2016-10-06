@@ -46,7 +46,8 @@
 				<!-- 主页面内容容器 -->
 				<div class="mui-content mui-scroll-wrapper">
 					<div class="mui-scroll">
-						<div class="mui-slider">
+						<!-- 轮播图组件 -->
+						<div class="mui-slider" id="main-slider">
 							<div class="mui-slider-group mui-slider-loop">
 								<div class="mui-slider-item mui-slider-item-duplicate">
 									<a href="#"><img v-bind:src="img3" /></a>
@@ -66,6 +67,147 @@
 							</div>
 						</div>
 
+						<!-- 卡片组件 -->
+						<div class="mui-card">
+							<!--页眉，放置标题-->
+							<div class="mui-card-header">
+								<h2>目标、宗旨、价值观</h2>
+
+							</div>
+							<!--内容区-->
+							<div class="mui-card-content">
+								<p>速度 安心 专业</p>
+								<p>务实创新 勇往直前 持之以恒</p>
+								<p>为用户创造价值，通过树立品牌形象以多样化、差异化领先行业</p>
+							</div>
+							<!--页脚，放置补充信息或支持的操作-->
+							<div class="mui-card-footer">
+								团结协作、不断改进、追求一流
+							</div>
+						</div>
+
+						<!--资质荣誉展示区-->
+						<div class="mui-card" id="company-honor">
+							<!--页眉，放置标题-->
+							<div class="mui-card-header">
+								<h2>资质荣誉</h2>
+							</div>
+							<!--内容区-->
+							<div class="mui-card-content">
+								<div class="mui-slider">
+									<div class="mui-slider-group mui-slider-loop">
+
+										<div class="mui-slider-item">
+											<ul class="mui-table-view mui-grid-view">
+												<li class="mui-table-view-cell mui-media mui-col-xs-3" v-for="item in items[0]">
+													<a href="#"><img class="mui-media-object" v-bind:src="item.Image_Url">
+														<div class="mui-media-body">{{item.Honor_Name}}</div>
+													</a>
+												</li>
+											</ul>
+										</div>
+
+										<div class="mui-slider-item">
+											<ul class="mui-table-view mui-grid-view">
+												<li class="mui-table-view-cell mui-media mui-col-xs-3" v-for="item in items[1]">
+													<a href="#"><img class="mui-media-object" v-bind:src="item.Image_Url">
+														<div class="mui-media-body">{{item.Honor_Name}}</div>
+													</a>
+												</li>
+											</ul>
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<!-- 新闻动态展示区 -->
+						<div class="mui-card" id="company-news">
+							<!--页眉，放置标题-->
+							<div class="mui-card-header">
+								<h2>公司动态</h2>
+							</div>
+							<!--内容区-->
+							<div class="mui-card-content">
+								<img src="images/company1.jpg" width="100%" />
+							</div>
+							<!--页脚，放置补充信息或支持的操作-->
+							<div class="mui-card-footer">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell" v-for="item in items">
+										<a href="#">{{item.Title}} {{item.Id}}</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- 典型案例 -->
+						<div class="mui-card" id="company-cases">
+							<!--页眉，放置标题-->
+							<div class="mui-card-header">
+								<h2>典型案例</h2>
+							</div>
+							<!--内容区-->
+							<div class="mui-card-content">
+								<img src="images/company2.jpg" width="100%" />
+							</div>
+							<!--页脚，放置补充信息或支持的操作-->
+							<div class="mui-card-footer">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell" v-for="item in items">
+										<a href="#">{{item.Title}} {{item.Id}}</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!--合作伙伴-->
+						<div class="mui-card" id="company-partners">
+							<!--页眉，放置标题-->
+							<div class="mui-card-header">
+								<h2>合作伙伴</h2>
+							</div>
+							<!--内容区-->
+							<div class="mui-card-content">
+								<div class="mui-slider">
+									<div class="mui-slider-group mui-slider-loop">
+										<div class="mui-slider-item mui-slider-item-duplicate">
+											<ul class="mui-table-view mui-grid-view">
+												<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="item in itemsData[2]">
+													<a href="#"><img class="mui-media-object" v-bind:src="item.Logo_Url">
+
+													</a>
+												</li>
+											</ul>
+										</div>
+										<div class="mui-slider-item" v-for="items in itemsData">
+											<ul class="mui-table-view mui-grid-view">
+												<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="item in items">
+													<a href="#"><img class="mui-media-object" v-bind:src="item.Logo_Url">
+
+													</a>
+												</li>
+											</ul>
+										</div>
+										<div class="mui-slider-item mui-slider-item-duplicate">
+											<ul class="mui-table-view mui-grid-view">
+												<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="item in itemsData[0]">
+													<a href="#"><img class="mui-media-object" v-bind:src="item.Logo_Url">
+
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="main-footer">
+							<address>
+					            <p>{{address}}</p>
+					            <p>{{fax}}</p>
+				        	</address>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -1,0 +1,18 @@
+#company-news li {
+	padding: 6px 10px;
+	width: 100%;
+}	
+
+#company-news li:after {
+	height: 0;
+}
+#company-news li a {
+
+	white-space: normal;
+}
+.main-footer address{
+	margin-top: 50px;
+	font-style: normal;
+	text-align: center;
+	width: 100%;
+}
