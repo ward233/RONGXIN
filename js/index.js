@@ -11,6 +11,7 @@ mui('.mui-scroll-wrapper').scroll({
 	deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 });
 
+
 var ajaxFunc = function(urlText, successFun, data) {
 	$.ajax({
 		url: urlText,
@@ -23,13 +24,13 @@ var ajaxFunc = function(urlText, successFun, data) {
 	});
 }; // ajax简化函数
 
+
+
 var getBannerSuccess = function(data) {
 	new Vue({
 		el: '#main-slider',
 		data: {
-			img1: data[0].Image_Url,
-			img2: data[1].Image_Url,
-			img3: data[2].Image_Url
+			imgs: data
 		}
 	})
 }; // 轮播图处理函数
@@ -92,3 +93,4 @@ var getContentSuccess = function(data) {
 }; //地址和传真处理函数
 
 ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", getContentSuccess); // 地址和传真ajax
+
