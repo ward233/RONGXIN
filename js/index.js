@@ -11,9 +11,8 @@ mui('.mui-scroll-wrapper').scroll({
 	deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 });
 
-
 var ajaxFunc = function(urlText, successFun, data) {
-	$.ajax({
+	jQuery.ajax({
 		url: urlText,
 		type: "POST",
 		dataType: "jsonp", //数据类型为jsonp
@@ -23,16 +22,34 @@ var ajaxFunc = function(urlText, successFun, data) {
 		success: successFun
 	});
 }; // ajax简化函数
+var headVm = new Vue ({
+	el: "#header",
+	data: {
+		h1Text: "融信科技"
+	}
+});
 
-var mainVm = new Vue({
+headVm.$watch('h1Text', function(val) {
+	jQuery('.mui-off-canvas-left .mui-table-view-cell').filter(function() {
+		jQuery(this).removeClass('menu-active');
+		return jQuery.trim(jQuery(this).text()) === val;
+	}).addClass('menu-active');
+});
+
+
+var mainVm = new Vue({ //主页的vue实例
 	el: 'main',
 	data: {
-		sliderImgs:[1,2,3], //在ajax函数调用之前 页面用的就是这些值
-		honorImgs: [],
-		newsItems: [],
-		caseItems: [],
-		partnerItems: [],
-		footerInfo: {address: "",fax: ""},
+		show: true,
+		sliderImgs: [1, 2, 3], //轮播图用的图片 在ajax函数调用之前 页面用的就是这些值 
+		honorImgs: [], //荣誉图片
+		newsItems: [], //新闻动态
+		caseItems: [], //典型案例
+		partnerItems: [], //合作伙伴
+		footerInfo: { //底部信息
+			address: "",
+			fax: ""
+		},
 	},
 	methods: {
 		getBannerSuccess: function(data) {
@@ -53,14 +70,19 @@ var mainVm = new Vue({
 		getfooterInfoSuccess: function(data) {
 			this.footerInfo.address = data[0].Address;
 			this.footerInfo.fax = data[0].Fax;
+		},
+		dataInit: function() {
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetBanner.ashx", this.getBannerSuccess); //轮播图处理
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetHonor1.ashx", this.getHonor1Success); //荣誉信息处理
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsByType, {
+				typeId: 2
+			}); //公司动态处理ajax
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCase.ashx", this.getCaseSuccess); //成功案例处理
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", this.getPartnerSuccess); //合作伙伴处理
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess); //底部信息处理
+
 		}
 	}
 });
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetBanner.ashx", mainVm.getBannerSuccess); //轮播图处理
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetHonor1.ashx", mainVm.getHonor1Success); //荣誉信息处理
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", mainVm.getNewsByType, {
-	typeId: 2
-}); //公司动态处理ajax
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCase.ashx", mainVm.getCaseSuccess); //成功案例处理
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", mainVm.getPartnerSuccess); //合作伙伴处理
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", mainVm.getfooterInfoSuccess); //底部信息处理
+mainVm.dataInit();
+

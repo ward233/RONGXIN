@@ -20,18 +20,36 @@
 				<aside class="mui-off-canvas-left">
 					<div class="mui-scroll-wrapper">
 						<div class="mui-scroll">
-
+							<header class="title">
+								融信科技
+							</header>
 							<ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
-								<li class="mui-table-view-cell">
-									<a class="mui-navigate-right">Item 1</a>
+								<li class="mui-table-view-cell menu-active">
+									官方首页
 
 								</li>
 								<li class="mui-table-view-cell">
-									<a class="mui-navigate-right">Item 1</a>
+									关于融信
 
 								</li>
 								<li class="mui-table-view-cell">
-									<a class="mui-navigate-right">Item 1</a>
+									新闻中心
+
+								</li>
+								<li class="mui-table-view-cell">
+									公司服务
+
+								</li>
+								<li class="mui-table-view-cell">
+									典型案例
+
+								</li>
+								<li class="mui-table-view-cell">
+									人才招聘
+
+								</li>
+								<li class="mui-table-view-cell">
+									联系我们
 
 								</li>
 							</ul>
@@ -39,14 +57,14 @@
 					</div>
 				</aside>
 				<!-- 主页面标题 -->
-				<header class="mui-bar mui-bar-nav">
+				<header class="mui-bar mui-bar-nav" id="header">
 					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
-					<h1 class="mui-title">融信科技</h1>
+					<h1 class="mui-title">{{h1Text}}</h1>
 				</header>
 				<!-- 主页面内容容器 -->
 				<div class="mui-content mui-scroll-wrapper">
 					<div class="mui-scroll">
-						<main>
+						<main v-show="show" transition="fade">
 							<!-- 轮播图组件 -->
 							<div class="mui-slider" id="main-slider">
 								<div class="mui-slider-group mui-slider-loop">

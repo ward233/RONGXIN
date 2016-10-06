@@ -1,18 +1,74 @@
 #company-news li {
 	padding: 6px 10px;
 	width: 100%;
-}	
+}
 
 #company-news li:after {
 	height: 0;
 }
-#company-news li a {
 
+#company-news li a {
 	white-space: normal;
 }
-.main-footer address{
+
+.main-footer address {
 	margin-top: 50px;
 	font-style: normal;
 	text-align: center;
 	width: 100%;
+}
+
+header.title {
+	background-color: #fff;
+	font-size: 20px;
+	color: #0F51B2;
+	text-align: center;
+	height: 43px;
+	line-height: 43px;
+}
+
+.mui-off-canvas-left .mui-scroll-wrapper {
+	background-color: #0F51B2;
+}
+
+.mui-off-canvas-left .mui-table-view-cell {
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	font-size: 16px;
+	padding: 0;
+	margin: 0;
+	background-color: #0F51B2;
+}
+
+.mui-off-canvas-left .mui-table-view:after {
+	height: 0;
+}
+
+.mui-off-canvas-left .mui-table-view-cell:after {
+	height: 0px !important;
+}
+
+.mui-off-canvas-left .mui-active, .menu-active {
+	color: #0F51B2;
+	background-color: #fff !important;
+}
+
+
+/* 必需 */
+
+.fade-transition {
+	transition: all .3s linear;
+	opacity: 1;
+}
+
+
+/* .fade-enter 定义进入的开始状态 */
+
+
+/* .fade-leave 定义离开的结束状态 */
+
+.fade-enter,
+.fade-leave {
+	opacity: 0;
 }
