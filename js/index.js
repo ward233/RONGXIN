@@ -24,73 +24,43 @@ var ajaxFunc = function(urlText, successFun, data) {
 	});
 }; // ajax简化函数
 
-
-
-var getBannerSuccess = function(data) {
-	new Vue({
-		el: '#main-slider',
-		data: {
-			imgs: data
+var mainVm = new Vue({
+	el: 'main',
+	data: {
+		sliderImgs:[1,2,3], //在ajax函数调用之前 页面用的就是这些值
+		honorImgs: [],
+		newsItems: [],
+		caseItems: [],
+		partnerItems: [],
+		footerInfo: {address: "",fax: ""},
+	},
+	methods: {
+		getBannerSuccess: function(data) {
+			this.sliderImgs = data;
+		},
+		getHonor1Success: function(data) {
+			this.honorImgs = [data.splice(0, 4), data];
+		},
+		getNewsByType: function(data) {
+			this.newsItems = data;
+		},
+		getCaseSuccess: function(data) {
+			this.caseItems = data;
+		},
+		getPartnerSuccess: function(data) {
+			this.partnerItems = [data.splice(0, 3), data.splice(0, 3), data.splice(0, 3)];
+		},
+		getfooterInfoSuccess: function(data) {
+			this.footerInfo.address = data[0].Address;
+			this.footerInfo.fax = data[0].Fax;
 		}
-	})
-}; // 轮播图处理函数
-
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetBanner.ashx", getBannerSuccess);
-
-var getHonor1Success = function(data) {
-	new Vue({
-		el: '#company-honor',
-		data: {
-			items: [data.splice(0, 4), data]
-		}
-	});
-}; // 资质荣誉处理函数
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetHonor1.ashx", getHonor1Success);
-
-var GetNewsByType = function(data) {
-	new Vue({
-		el: '#company-news',
-		data: {
-			items: data
-		}
-	});
-}; //公司动态处理函数
-
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", GetNewsByType, {
+	}
+});
+ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetBanner.ashx", mainVm.getBannerSuccess); //轮播图处理
+ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetHonor1.ashx", mainVm.getHonor1Success); //荣誉信息处理
+ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", mainVm.getNewsByType, {
 	typeId: 2
 }); //公司动态处理ajax
-
-var getCaseSuccess = function(data) {
-	new Vue({
-		el: '#company-cases',
-		data: {
-			items: data
-		}
-	});
-}; //典型案例处理函数
-
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCase.ashx", getCaseSuccess); //典型案例处理ajax
-
-var getPartnerSuccess = function(data) {
-	new Vue({
-		el: '#company-partners',
-		data: {
-			itemsData: [data.splice(0, 3), data.splice(0, 3), data.splice(0, 3)]
-		}
-	});
-}; //合作伙伴处理函数
-
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", getPartnerSuccess); //合作伙伴处理ajax
-
-var getContentSuccess = function(data) {
-	new Vue({
-		el: '.main-footer',
-		data: {
-			address: data[0].Address,
-			fax: data[0].Fax
-		}
-	});
-}; //地址和传真处理函数
-
-ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", getContentSuccess); // 地址和传真ajax
-
+ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCase.ashx", mainVm.getCaseSuccess); //成功案例处理
+ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", mainVm.getPartnerSuccess); //合作伙伴处理
+ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", mainVm.getfooterInfoSuccess); //底部信息处理

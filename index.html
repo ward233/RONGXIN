@@ -51,14 +51,14 @@
 							<div class="mui-slider" id="main-slider">
 								<div class="mui-slider-group mui-slider-loop">
 									<div class="mui-slider-item mui-slider-item-duplicate">
-										<a href="#"><img v-bind:src="imgs[2].Image_Url" /></a>
+										<a href="#"><img v-bind:src="sliderImgs[2].Image_Url" /></a>
 									</div>
-									<div class="mui-slider-item" v-for="img in imgs">
+									<div class="mui-slider-item" v-for="img in sliderImgs">
 										<a href="#"><img v-bind:src="img.Image_Url" /></a>
 									</div>
 
 									<div class="mui-slider-item mui-slider-item-duplicate">
-										<a href="#"><img v-bind:src="imgs[0].Image_Url" /></a>
+										<a href="#"><img v-bind:src="sliderImgs[0].Image_Url" /></a>
 									</div>
 								</div>
 							</div>
@@ -95,7 +95,7 @@
 
 											<div class="mui-slider-item">
 												<ul class="mui-table-view mui-grid-view">
-													<li class="mui-table-view-cell mui-media mui-col-xs-3" v-for="item in items[0]">
+													<li class="mui-table-view-cell mui-media mui-col-xs-3" v-for="item in honorImgs[0]">
 														<a href="#"><img class="mui-media-object" v-bind:src="item.Image_Url">
 															<div class="mui-media-body">{{item.Honor_Name}}</div>
 														</a>
@@ -105,7 +105,7 @@
 
 											<div class="mui-slider-item">
 												<ul class="mui-table-view mui-grid-view">
-													<li class="mui-table-view-cell mui-media mui-col-xs-3" v-for="item in items[1]">
+													<li class="mui-table-view-cell mui-media mui-col-xs-3" v-for="item in honorImgs[1]">
 														<a href="#"><img class="mui-media-object" v-bind:src="item.Image_Url">
 															<div class="mui-media-body">{{item.Honor_Name}}</div>
 														</a>
@@ -131,7 +131,7 @@
 								<!--页脚，放置补充信息或支持的操作-->
 								<div class="mui-card-footer">
 									<ul class="mui-table-view">
-										<li class="mui-table-view-cell" v-for="item in items">
+										<li class="mui-table-view-cell" v-for="item in newsItems">
 											<a href="#">{{item.Title}} {{item.Id}}</a>
 										</li>
 									</ul>
@@ -150,7 +150,7 @@
 								<!--页脚，放置补充信息或支持的操作-->
 								<div class="mui-card-footer">
 									<ul class="mui-table-view">
-										<li class="mui-table-view-cell" v-for="item in items">
+										<li class="mui-table-view-cell" v-for="item in caseItems">
 											<a href="#">{{item.Title}} {{item.Id}}</a>
 										</li>
 									</ul>
@@ -168,14 +168,14 @@
 										<div class="mui-slider-group mui-slider-loop">
 											<div class="mui-slider-item mui-slider-item-duplicate">
 												<ul class="mui-table-view mui-grid-view">
-													<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="item in itemsData[2]">
+													<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="item in partnerItems[2]">
 														<a href="#"><img class="mui-media-object" v-bind:src="item.Logo_Url">
 
 														</a>
 													</li>
 												</ul>
 											</div>
-											<div class="mui-slider-item" v-for="items in itemsData">
+											<div class="mui-slider-item" v-for="items in partnerItems">
 												<ul class="mui-table-view mui-grid-view">
 													<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="item in items">
 														<a href="#"><img class="mui-media-object" v-bind:src="item.Logo_Url">
@@ -186,7 +186,7 @@
 											</div>
 											<div class="mui-slider-item mui-slider-item-duplicate">
 												<ul class="mui-table-view mui-grid-view">
-													<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="item in itemsData[0]">
+													<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="item in partnerItems[0]">
 														<a href="#"><img class="mui-media-object" v-bind:src="item.Logo_Url">
 
 														</a>
@@ -200,8 +200,8 @@
 
 							<div class="main-footer">
 								<address>
-					            <p>{{address}}</p>
-					            <p>{{fax}}</p>
+					            <p>{{footerInfo.address}}</p>
+					            <p>{{footerInfo.fax}}</p>
 				        	</address>
 							</div>
 						</main>
