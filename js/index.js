@@ -97,8 +97,6 @@ var mainVm = new Vue({ //主页的vue实例
 });
 mainVm.dataInit();
 
-
-
 var aboutUsVm = new Vue({
 	el: '#about-us',
 	data: {
@@ -134,19 +132,82 @@ var newsCenterVm = new Vue({
 		newsInfo: [],
 	},
 	methods: {
-		getNewsInfo1 : function(data) {
+		getNewsInfo1: function(data) {
 			this.newsInfo = this.newsInfo.concat(data.splice(2));
 		},
-		getNewsInfo2 : function(data) {
+		getNewsInfo2: function(data) {
 			this.newsInfo = this.newsInfo.concat(data);
 		},
 		dataInit: function() {
-			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo1, {typeId: 2})
-			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo2, {typeId: 1})
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo1, {
+				typeId: 2
+			})
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo2, {
+				typeId: 1
+			})
 		}
 	}
 });
 newsCenterVm.dataInit();
+
+var companyService = new Vue({
+	el: "#company-service",
+	data: {
+		show: true,
+		serviceBackImg: {
+			"0": "",
+			"1": "",
+			"2": ""
+		},
+		serviceText: [{
+			title: "",
+			content: ""
+		}, {
+			title: "",
+			content: ""
+		}, {
+			title: "",
+			content: ""
+		}],
+		serviceText2: [{
+			title: "",
+			content: ""
+		}, {
+			title: "",
+			content: ""
+		}, {
+			title: "",
+			content: ""
+		}]
+	},
+	methods: {
+		getServiceInfo: function(data) {
+			this.serviceText = [];
+			for(var i = 0; i < 3; i++) {
+				this.serviceBackImg[i.toString()] = data[i].Image_Url;
+				this.serviceText.push({
+					title: data[i].Title,
+					content: data[i].Content.replace(/<[^>]+>/g, "")
+				});
+			}
+		},
+		getSelectInfo: function(data) {
+			this.serviceText2 = [];
+			for(var i = 0; i < 3; i++) {
+				this.serviceText2.push({
+					title: data[i].Title,
+					content: data[i].Content.replace(/<[^>]+>/g, "")
+				});
+			}
+		},
+		dataInit: function() {
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/service_InfoImg.ashx", this.getServiceInfo);
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/select_InfoNoimg.ashx", this.getSelectInfo);
+		}
+	}
+})
+companyService.dataInit();
 //测试语句
 mainVm.show = false;
 aboutUsVm.show = false;
+newsCenterVm.show = false;

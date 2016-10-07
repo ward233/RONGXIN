@@ -1,6 +1,7 @@
 body {
-	font-family: "microsoft yahei" !important; 
+	font-family: "microsoft yahei" !important;
 }
+
 #company-news li {
 	padding: 6px 10px;
 	width: 100%;
@@ -52,14 +53,43 @@ header.title {
 	height: 0px !important;
 }
 
-.mui-off-canvas-left .mui-active, .menu-active {
+.mui-off-canvas-left .mui-active,
+.menu-active {
 	color: #0F51B2;
 	background-color: #fff !important;
 }
 
-.model-img{
+.model-img {
 	width: 100%;
+}
 
+#company-service .service-img-item {
+	position: relative;
+	width: 100%;
+	height: 30vw;
+}
+
+#company-service .service-img {
+	position: absolute;
+	width: 100%;
+	opacity: 0.5;
+	height: 30vw;
+	background-repeat: no-repeat;
+	background-size: cover;
+	z-index: -1;
+}
+
+#company-service .servie-text {
+	text-align: center;
+	
+	padding: 5px 10px;
+	background-color: rgba(000,000,000, 0.7);
+	height: 30vw;
+	
+}
+#company-service .servie-text p {
+	color: #ffffff;
+	font-size: 12px;
 }
 
 /* 必需 */

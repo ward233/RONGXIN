@@ -233,6 +233,34 @@
 							</div>
 
 						</section>
+						<!-- 公司服务 -->
+						<section id="company-service" v-show="show">
+							<img src="images/service.jpg" class="model-img" />
+							<div class="service-img-item" v-for="serviceItem in serviceText">
+								<div class="service-img" v-bind:style="{ backgroundImage: 'url(' + serviceBackImg[$index] + ')' }">
+
+								</div>
+								<div class="servie-text">
+									<p>{{ serviceItem.title }}</p>
+									<p>{{serviceItem.content}}</p>
+								</div>
+							</div>
+							<div class="mui-card" v-for = "selectItem in serviceText2">
+								<!--页眉，放置标题-->
+								<div class="mui-card-header">
+									{{selectItem.title}}
+								</div>
+								<!--内容区-->
+								<div class="mui-card-content">
+									<div class="mui-card-content-inner" >
+										{{selectItem.content}}
+
+									</div>
+
+								</div>
+
+							</div>
+						</section>
 						<section id="index-footer">
 							<!--合作伙伴-->
 							<div class="mui-card" id="company-partners">
