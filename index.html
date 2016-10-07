@@ -176,11 +176,11 @@
 							</div>
 
 						</main>
-						
+
 						<!--关于我们-->
 						<section id="about-us" v-show="show">
 
-							<img src="images/about.jpg" alt="关于我们" class="about-us-img" />
+							<img src="images/about.jpg" alt="关于我们" class="model-img" />
 
 							<div class="mui-card">
 								<!--页眉，放置标题-->
@@ -205,8 +205,7 @@
 								<!--内容区-->
 								<div class="mui-card-content">
 									<div class="mui-card-content-inner" style="font-size: 12px;">
-										<h3>{{companyCulture[0]}}</h3>
-										{{companyCulture[1]}}
+										<h3>{{companyCulture[0]}}</h3> {{companyCulture[1]}}
 
 									</div>
 
@@ -215,8 +214,24 @@
 							</div>
 						</section>
 						<!-- 新闻中心 -->
-						<section id="news-center" v-show = "show">
-							
+						<section id="news-center" v-show="show">
+							<img src="images/news.jpg" class="model-img" />
+							<div class="mui-card">
+
+								<!--内容区-->
+								<div class="mui-card-content">
+									<div class="mui-card-content-inner" style="font-size: 12px;">
+										<ul class="mui-table-view">
+											<li class="mui-table-view-cell" v-for="item in newsInfo">
+												<a href="#">{{item.Title}} {{item.Id}}</a>
+											</li>
+										</ul>
+									</div>
+
+								</div>
+
+							</div>
+
 						</section>
 						<section id="index-footer">
 							<!--合作伙伴-->

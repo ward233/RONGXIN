@@ -130,9 +130,23 @@ aboutUsVm.dataInit();
 var newsCenterVm = new Vue({
 	el: "#news-center",
 	data: {
-		show: true
+		show: true,
+		newsInfo: [],
+	},
+	methods: {
+		getNewsInfo1 : function(data) {
+			this.newsInfo = this.newsInfo.concat(data.splice(2));
+		},
+		getNewsInfo2 : function(data) {
+			this.newsInfo = this.newsInfo.concat(data);
+		},
+		dataInit: function() {
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo1, {typeId: 2})
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo2, {typeId: 1})
+		}
 	}
 });
+newsCenterVm.dataInit();
 //测试语句
 mainVm.show = false;
 aboutUsVm.show = false;
