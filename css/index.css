@@ -1,3 +1,6 @@
+body {
+	font-family: "microsoft yahei" !important; 
+}
 #company-news li {
 	padding: 6px 10px;
 	width: 100%;
@@ -11,7 +14,7 @@
 	white-space: normal;
 }
 
-.main-footer address {
+#index-footer address {
 	margin-top: 50px;
 	font-style: normal;
 	text-align: center;
@@ -54,6 +57,10 @@ header.title {
 	background-color: #fff !important;
 }
 
+#about-us .about-us-img{
+	width: 100%;
+
+}
 
 /* 必需 */
 

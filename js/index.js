@@ -17,12 +17,12 @@ var ajaxFunc = function(urlText, successFun, data) {
 		type: "POST",
 		dataType: "jsonp", //数据类型为jsonp
 		jsonp: "callback", //服务端用于接收callback调用的function名的参数
-		data: data ? data : "",
+		data: data || "",
 		timeout: 5000,
 		success: successFun
 	});
 }; // ajax简化函数
-var headVm = new Vue ({
+var headVm = new Vue({
 	el: "#header",
 	data: {
 		h1Text: "融信科技"
@@ -36,6 +36,29 @@ headVm.$watch('h1Text', function(val) {
 	}).addClass('menu-active');
 });
 
+var indexFooterVm = new Vue({
+	el: '#index-footer',
+	data: {
+		partnerItems: [], //合作伙伴
+		footerInfo: { //底部信息
+			address: "",
+			fax: ""
+		},
+	},
+	methods: {
+		getPartnerSuccess: function(data) {
+			this.partnerItems = [data.splice(0, 3), data.splice(0, 3), data.splice(0, 3)];
+		},
+		getfooterInfoSuccess: function(data) {
+			this.footerInfo.address = data[0].Address;
+			this.footerInfo.fax = data[0].Fax;
+		},
+	},
+	created: function() {
+		ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", this.getPartnerSuccess); //合作伙伴处理
+		ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess); //底部信息处理
+	}
+});
 
 var mainVm = new Vue({ //主页的vue实例
 	el: 'main',
@@ -45,11 +68,7 @@ var mainVm = new Vue({ //主页的vue实例
 		honorImgs: [], //荣誉图片
 		newsItems: [], //新闻动态
 		caseItems: [], //典型案例
-		partnerItems: [], //合作伙伴
-		footerInfo: { //底部信息
-			address: "",
-			fax: ""
-		},
+
 	},
 	methods: {
 		getBannerSuccess: function(data) {
@@ -64,13 +83,7 @@ var mainVm = new Vue({ //主页的vue实例
 		getCaseSuccess: function(data) {
 			this.caseItems = data;
 		},
-		getPartnerSuccess: function(data) {
-			this.partnerItems = [data.splice(0, 3), data.splice(0, 3), data.splice(0, 3)];
-		},
-		getfooterInfoSuccess: function(data) {
-			this.footerInfo.address = data[0].Address;
-			this.footerInfo.fax = data[0].Fax;
-		},
+
 		dataInit: function() {
 			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetBanner.ashx", this.getBannerSuccess); //轮播图处理
 			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetHonor1.ashx", this.getHonor1Success); //荣誉信息处理
@@ -78,11 +91,48 @@ var mainVm = new Vue({ //主页的vue实例
 				typeId: 2
 			}); //公司动态处理ajax
 			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCase.ashx", this.getCaseSuccess); //成功案例处理
-			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", this.getPartnerSuccess); //合作伙伴处理
-			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess); //底部信息处理
 
 		}
 	}
 });
 mainVm.dataInit();
 
+
+
+var aboutUsVm = new Vue({
+	el: '#about-us',
+	data: {
+		activeColor: 'red',
+		fontSize: 30,
+		show: true,
+		companyIntroduction: "",
+		companyInfoImg1: "",
+		companyInfoImg2: "",
+		companyCulture: []
+	},
+	methods: {
+		getAboutUsInfo: function(data) {
+			this.companyInfoImg1 = data[0].Image_Url;
+			this.companyInfoImg2 = data[0].CulturPicture_Url;
+
+			this.companyIntroduction = data[0].Introduction.replace(/<[^>]+>/g, "");
+			this.companyCulture = data[0].Enterprise_Culture.replace(/<[^>]+>/g, "");
+			this.companyCulture = [this.companyCulture.split("").splice(0, 14).join(""), this.companyCulture.split("").splice(14).join("")];
+
+		},
+		dataInit: function() {
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetInformation.ashx", this.getAboutUsInfo);
+		}
+	}
+});
+aboutUsVm.dataInit();
+
+var newsCenterVm = new Vue({
+	el: "#news-center",
+	data: {
+		show: true
+	}
+});
+//测试语句
+mainVm.show = false;
+aboutUsVm.show = false;
