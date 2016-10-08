@@ -94,17 +94,41 @@ header.title {
 
 /* 必需 */
 
-.fade-transition {
-	transition: all .3s linear;
-	opacity: 1;
+
+
+#join-us h1, #contact-us h1 {
+	color: #1e9c95;
+	text-align: center;
+	margin-top: 100px;
+	margin-bottom: 20px;
+}
+#join-us section {
+	border-top: 1px solid #d9d9d9;
+	margin: 0 10px;
+}
+#join-us section p {
+	font-size: 14px;
+	color: #000;
+}
+#join-us h4 {
+	margin-top: 10px;
 }
 
-
+#contact-us {
+	text-align: center;
+}
 /* .fade-enter 定义进入的开始状态 */
 
 
 /* .fade-leave 定义离开的结束状态 */
-
+#contact-us ul li{
+	list-style: none;
+	text-align: left;
+}
+.fade-transition {
+	transition: all .2s linear;
+	opacity: 1;
+}
 .fade-enter,
 .fade-leave {
 	opacity: 0;

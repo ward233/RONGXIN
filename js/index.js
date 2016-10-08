@@ -5,7 +5,7 @@ mui('#main-slider').slider({
 });
 mui(".mui-bar").on("tap", ".mui-action-menu", function() {
 	mui('.mui-off-canvas-wrap').offCanvas('show');
-})
+});
 
 mui('.mui-scroll-wrapper').scroll({
 	deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
@@ -100,9 +100,7 @@ mainVm.dataInit();
 var aboutUsVm = new Vue({
 	el: '#about-us',
 	data: {
-		activeColor: 'red',
-		fontSize: 30,
-		show: true,
+		show: false,
 		companyIntroduction: "",
 		companyInfoImg1: "",
 		companyInfoImg2: "",
@@ -128,7 +126,7 @@ aboutUsVm.dataInit();
 var newsCenterVm = new Vue({
 	el: "#news-center",
 	data: {
-		show: true,
+		show: false,
 		newsInfo: [],
 	},
 	methods: {
@@ -153,7 +151,7 @@ newsCenterVm.dataInit();
 var companyServiceVm = new Vue({
 	el: "#company-service",
 	data: {
-		show: true,
+		show: false,
 		serviceBackImg: {
 			"0": "",
 			"1": "",
@@ -211,11 +209,11 @@ companyServiceVm.dataInit();
 var companyCaseVm = new Vue({
 	el: '#company-cases',
 	data: {
-		show: true,
+		show: false,
 		caseItems: [],
 	},
 	methods: {
-		getCases : function(data) {
+		getCases: function(data) {
 			this.caseItems = data;
 		},
 		dataInit: function() {
@@ -223,16 +221,67 @@ var companyCaseVm = new Vue({
 		}
 	}
 });
+companyCaseVm.dataInit();
 var joinUsVm = new Vue({
 	el: "#join-us",
 	data: {
-		show: true,
+		show: false,
+		jobItems: [],
+	},
+	methods: {
+		getJob: function(data) {
+			this.jobItems = data.splice(1);
+
+		},
+		dataInit: function() {
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetJob.ashx", this.getJob);
+		}
 	}
 })
-companyCaseVm.dataInit();
-//测试语句
-mainVm.show = false;
-aboutUsVm.show = false;
-newsCenterVm.show = false;
-companyServiceVm.show = false;
-companyCaseVm.show = false;
+joinUsVm.dataInit();
+
+var contactUsVm = new Vue({
+	el: "#contact-us",
+	data: {
+		show: false,
+		contactInfo: [{
+			Company_Name: "",
+			Address: "",
+			Url: "",
+			Contact: "",
+			Phone: "",
+			Fax: "",
+			PostCodes: "",
+			Mail: ""
+		}]
+	},
+	methods: {
+		getContactInfo: function(data) {
+			this.contactInfo = data;
+		},
+		dataInit: function() {
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getContactInfo);
+		}
+	},
+	created: function() {
+
+	}
+})
+contactUsVm.dataInit();
+mui(".mui-off-canvas-left").on("tap", ".mui-table-view-cell", function(event) {
+	var controlShow = {
+		"官方首页": mainVm,
+		"关于融信": aboutUsVm,
+		"新闻中心": newsCenterVm,
+		"公司服务": companyServiceVm,
+		"典型案例": companyCaseVm,
+		"人才招聘": joinUsVm,
+		"联系我们": contactUsVm
+	}
+	controlShow[jQuery.trim(jQuery('.menu-active').text())].show = false;
+	controlShow[event.target.innerText].show = true;
+	headVm.h1Text = event.target.innerText;
+	mui('.mui-off-canvas-wrap').offCanvas().close();
+
+});
+

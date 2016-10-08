@@ -178,7 +178,7 @@
 						</main>
 
 						<!--关于我们-->
-						<section id="about-us" v-show="show">
+						<section id="about-us" v-show="show" transition="fade">
 
 							<img src="images/about.jpg" alt="关于我们" class="model-img" />
 
@@ -214,7 +214,7 @@
 							</div>
 						</section>
 						<!-- 新闻中心 -->
-						<section id="news-center" v-show="show">
+						<section id="news-center" v-show="show" transition="fade">
 							<img src="images/news.jpg" class="model-img" />
 							<div class="mui-card">
 
@@ -234,7 +234,7 @@
 
 						</section>
 						<!-- 公司服务 -->
-						<section id="company-service" v-show="show">
+						<section id="company-service" v-show="show" transition="fade">
 							<img src="images/service.jpg" class="model-img" />
 							<div class="service-img-item" v-for="serviceItem in serviceText">
 								<div class="service-img" v-bind:style="{ backgroundImage: 'url(' + serviceBackImg[$index] + ')' }">
@@ -261,7 +261,7 @@
 
 							</div>
 						</section>
-						<section id="company-cases" v-show="show">
+						<section id="company-cases" v-show="show" transition="fade">
 							<img src="images/case.jpg" class="model-img" />
 							<div class="mui-card">
 								<!--内容区-->
@@ -276,9 +276,32 @@
 								</div>
 							</div>
 						</section>
-						<section id="join-us" v-show="show">
+						<section id="join-us" v-show="show" transition="fade">
 							<img src="images/joinus.jpg" class="model-img" />
-
+							<h1>人才招聘</h1>
+							<section v-for="item in jobItems">
+								<h4>{{item.Job_Name}}</h4>
+								<p>要求:</p>
+								{{{item.Job_Requirement}}}
+							</section>
+						</section>
+						<section id="contact-us" v-show="show" transition="fade">
+							<img src="images/contact.jpg" class="model-img" />
+							<h1>联系我们</h1>
+							<p>通过地图找到我们</p>
+							<img src="images/address.png" alt="" />
+							<p>关注我们</p>
+							<img src="images/gzh2.png" alt="" />
+							<ul>
+								<li>公司名称: {{contactInfo[0].Company_Name}}</li>
+								 <li>公司地址: {{contactInfo[0].Address}}</li>
+								 <li>公司网址 : {{contactInfo[0].Url}}</li>
+								 <li>联系人: {{contactInfo[0].Contact}}</li>
+								 <li>联系电话 : {{contactInfo[0].Phone}}</li>
+								  <li>传真号码 : {{contactInfo[0].Fax}}</li>
+								  <li>邮 编 : {{contactInfo[0].PostCodes}}</li>
+								  <li> 邮 箱 : {{contactInfo[0].Mail}}</li>
+							</ul>
 						</section>
 						<section id="index-footer">
 							<!--合作伙伴-->
