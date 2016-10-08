@@ -150,7 +150,7 @@ var newsCenterVm = new Vue({
 });
 newsCenterVm.dataInit();
 
-var companyService = new Vue({
+var companyServiceVm = new Vue({
 	el: "#company-service",
 	data: {
 		show: true,
@@ -205,9 +205,34 @@ var companyService = new Vue({
 			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/select_InfoNoimg.ashx", this.getSelectInfo);
 		}
 	}
+});
+companyServiceVm.dataInit();
+
+var companyCaseVm = new Vue({
+	el: '#company-cases',
+	data: {
+		show: true,
+		caseItems: [],
+	},
+	methods: {
+		getCases : function(data) {
+			this.caseItems = data;
+		},
+		dataInit: function() {
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCaseAll.ashx", this.getCases);
+		}
+	}
+});
+var joinUsVm = new Vue({
+	el: "#join-us",
+	data: {
+		show: true,
+	}
 })
-companyService.dataInit();
+companyCaseVm.dataInit();
 //测试语句
 mainVm.show = false;
 aboutUsVm.show = false;
 newsCenterVm.show = false;
+companyServiceVm.show = false;
+companyCaseVm.show = false;

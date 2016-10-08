@@ -137,7 +137,7 @@
 								</div>
 							</div>
 							<!-- 新闻动态展示区 -->
-							<div class="mui-card" id="company-news">
+							<div class="mui-card">
 								<!--页眉，放置标题-->
 								<div class="mui-card-header">
 									<h2>公司动态</h2>
@@ -156,7 +156,7 @@
 								</div>
 							</div>
 							<!-- 典型案例 -->
-							<div class="mui-card" id="company-cases">
+							<div class="mui-card">
 								<!--页眉，放置标题-->
 								<div class="mui-card-header">
 									<h2>典型案例</h2>
@@ -245,14 +245,14 @@
 									<p>{{serviceItem.content}}</p>
 								</div>
 							</div>
-							<div class="mui-card" v-for = "selectItem in serviceText2">
+							<div class="mui-card" v-for="selectItem in serviceText2">
 								<!--页眉，放置标题-->
 								<div class="mui-card-header">
 									{{selectItem.title}}
 								</div>
 								<!--内容区-->
 								<div class="mui-card-content">
-									<div class="mui-card-content-inner" >
+									<div class="mui-card-content-inner">
 										{{selectItem.content}}
 
 									</div>
@@ -260,6 +260,25 @@
 								</div>
 
 							</div>
+						</section>
+						<section id="company-cases" v-show="show">
+							<img src="images/case.jpg" class="model-img" />
+							<div class="mui-card">
+								<!--内容区-->
+								<div class="mui-card-content">
+									<div class="mui-card-content-inner">
+										<ul class="mui-table-view">
+											<li class="mui-table-view-cell" v-for="case in caseItems">
+												<a href="#">{{case.Title}}</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section id="join-us" v-show="show">
+							<img src="images/joinus.jpg" class="model-img" />
+
 						</section>
 						<section id="index-footer">
 							<!--合作伙伴-->
