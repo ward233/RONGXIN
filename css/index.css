@@ -117,14 +117,31 @@ header.title {
 #contact-us {
 	text-align: center;
 }
-/* .fade-enter 定义进入的开始状态 */
-
-
-/* .fade-leave 定义离开的结束状态 */
 #contact-us ul li{
 	list-style: none;
 	text-align: left;
 }
+#news-detail h3, #case-detail h3 {
+	color: #1e9c95;
+	margin-top: 10px;
+}
+#news-detail span {
+	margin-right: 25px;
+}
+#news-detail article, #case-detail article {
+	margin: 0 10px;
+}
+#news-detail .key, #case-detail .custom {
+	margin: 50px 0;
+	color: #000000;
+}
+
+
+/* .fade-enter 定义进入的开始状态 */
+
+
+/* .fade-leave 定义离开的结束状态 */
+
 .fade-transition {
 	transition: all .2s linear;
 	opacity: 1;

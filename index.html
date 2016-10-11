@@ -58,7 +58,7 @@
 				</aside>
 				<!-- 主页面标题 -->
 				<header class="mui-bar mui-bar-nav" id="header">
-					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+					<a id="header-menu" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
 					<h1 class="mui-title">{{h1Text}}</h1>
 				</header>
 				<!-- 主页面内容容器 -->
@@ -148,9 +148,9 @@
 								</div>
 								<!--页脚，放置补充信息或支持的操作-->
 								<div class="mui-card-footer">
-									<ul class="mui-table-view">
+									<ul class="mui-table-view news-list">
 										<li class="mui-table-view-cell" v-for="item in newsItems">
-											<a href="#">{{item.Title}} {{item.Id}}</a>
+											<a href="#" v-bind:data-id = "item.Id">{{item.Title}}</a>
 										</li>
 									</ul>
 								</div>
@@ -167,9 +167,9 @@
 								</div>
 								<!--页脚，放置补充信息或支持的操作-->
 								<div class="mui-card-footer">
-									<ul class="mui-table-view">
+									<ul class="mui-table-view case-list">
 										<li class="mui-table-view-cell" v-for="item in caseItems">
-											<a href="#">{{item.Title}} {{item.Id}}</a>
+											<a href="#" v-bind:data-id = "item.Id">{{item.Title}}</a>
 										</li>
 									</ul>
 								</div>
@@ -221,9 +221,9 @@
 								<!--内容区-->
 								<div class="mui-card-content">
 									<div class="mui-card-content-inner" style="font-size: 12px;">
-										<ul class="mui-table-view">
+										<ul class="mui-table-view news-list">
 											<li class="mui-table-view-cell" v-for="item in newsInfo">
-												<a href="#">{{item.Title}} {{item.Id}}</a>
+												<a href="#" v-bind:data-id = "item.Id">{{item.Title}}</a>
 											</li>
 										</ul>
 									</div>
@@ -267,9 +267,9 @@
 								<!--内容区-->
 								<div class="mui-card-content">
 									<div class="mui-card-content-inner">
-										<ul class="mui-table-view">
+										<ul class="mui-table-view case-list">
 											<li class="mui-table-view-cell" v-for="case in caseItems">
-												<a href="#">{{case.Title}}</a>
+												<a href="#" v-bind:data-id = "case.Id">{{case.Title}}</a>
 											</li>
 										</ul>
 									</div>
@@ -285,6 +285,7 @@
 								{{{item.Job_Requirement}}}
 							</section>
 						</section>
+
 						<section id="contact-us" v-show="show" transition="fade">
 							<img src="images/contact.jpg" class="model-img" />
 							<h1>联系我们</h1>
@@ -294,14 +295,32 @@
 							<img src="images/gzh2.png" alt="" />
 							<ul>
 								<li>公司名称: {{contactInfo[0].Company_Name}}</li>
-								 <li>公司地址: {{contactInfo[0].Address}}</li>
-								 <li>公司网址 : {{contactInfo[0].Url}}</li>
-								 <li>联系人: {{contactInfo[0].Contact}}</li>
-								 <li>联系电话 : {{contactInfo[0].Phone}}</li>
-								  <li>传真号码 : {{contactInfo[0].Fax}}</li>
-								  <li>邮 编 : {{contactInfo[0].PostCodes}}</li>
-								  <li> 邮 箱 : {{contactInfo[0].Mail}}</li>
+								<li>公司地址: {{contactInfo[0].Address}}</li>
+								<li>公司网址 : {{contactInfo[0].Url}}</li>
+								<li>联系人: {{contactInfo[0].Contact}}</li>
+								<li>联系电话 : {{contactInfo[0].Phone}}</li>
+								<li>传真号码 : {{contactInfo[0].Fax}}</li>
+								<li>邮 编 : {{contactInfo[0].PostCodes}}</li>
+								<li> 邮 箱 : {{contactInfo[0].Mail}}</li>
 							</ul>
+						</section>
+						<section id="news-detail" v-show="show" transition="fade">
+							<img src="http://www.zjrxkj.com.cn/uploadFile/news/201608021146002503.jpg" class="model-img" />
+							<article>
+								<h3>{{newsDetailContent.Title}}</h3>
+								<p><span>{{newsDetailContent.Author}}</span><span>{{newsDetailContent.Create_Time}}</span></p>
+								<p class="key"><strong>关键字:</strong>{{newsDetailContent.key_words}}</p>
+								<p><strong style="color: #000;">内容简介:</strong>{{newsDetailContent.Abstract}}</p>
+								{{{newsDetailContent.Content}}}
+							</article>
+						</section>
+						<section id="case-detail" v-show="show" transition = "fade">
+							<article>
+								<h3>{{caseDetailContent.Title}}</h3>
+								<p>{{caseDetailContent.Create_Time}}</p>
+								<p class="custom"><strong>客户名:</strong>{{caseDetailContent.custom_Name}}</p>
+								{{{caseDetailContent.Content}}}
+							</article>
 						</section>
 						<section id="index-footer">
 							<!--合作伙伴-->
