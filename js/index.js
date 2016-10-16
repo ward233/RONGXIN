@@ -38,7 +38,7 @@ var ajaxFunc = function(urlText, successFun, errorFunc, data) {
 		dataType: "jsonp", //数据类型为jsonp
 		jsonp: "callback", //服务端用于接收callback调用的function名的参数
 		data: data || "",
-		timeout: 5000,
+		timeout: 30000,
 		success: successFun,
 		error: errorFunc
 	});
@@ -200,6 +200,7 @@ var mainVm = new Vue({ //主页的vue实例
 			}
 		},
 		errorFunc: function() {
+			console.log(this);
 			this.show = false;
 			errorVm.show = true;
 		}
@@ -731,3 +732,10 @@ mui(".mui-bar").on("tap", ".mui-icon-arrowleft", function() {
 	controlShow[controlShow[headVm.h1Text].prevName].show = true;
 	jQuery("#header-menu").removeClass("mui-icon-arrowleft").addClass("mui-action-menu");
 });
+
+jQuery(document).ajaxStart(function(){
+	jQuery('#header .mui-spinner').show(0);
+ });
+ jQuery(document).ajaxStop(function(){
+	jQuery('#header .mui-spinner').hide(0);
+ });
