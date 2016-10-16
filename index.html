@@ -150,7 +150,7 @@
 								<div class="mui-card-footer">
 									<ul class="mui-table-view news-list">
 										<li class="mui-table-view-cell" v-for="item in newsItems">
-											<a href="#" v-bind:data-id = "item.Id">{{item.Title}}</a>
+											<a href="#" v-bind:data-id="item.Id">{{item.Title}}</a>
 										</li>
 									</ul>
 								</div>
@@ -169,7 +169,7 @@
 								<div class="mui-card-footer">
 									<ul class="mui-table-view case-list">
 										<li class="mui-table-view-cell" v-for="item in caseItems">
-											<a href="#" v-bind:data-id = "item.Id">{{item.Title}}</a>
+											<a href="#" v-bind:data-id="item.Id">{{item.Title}}</a>
 										</li>
 									</ul>
 								</div>
@@ -223,7 +223,7 @@
 									<div class="mui-card-content-inner" style="font-size: 12px;">
 										<ul class="mui-table-view news-list">
 											<li class="mui-table-view-cell" v-for="item in newsInfo">
-												<a href="#" v-bind:data-id = "item.Id">{{item.Title}}</a>
+												<a href="#" v-bind:data-id="item.Id">{{item.Title}}</a>
 											</li>
 										</ul>
 									</div>
@@ -269,7 +269,7 @@
 									<div class="mui-card-content-inner">
 										<ul class="mui-table-view case-list">
 											<li class="mui-table-view-cell" v-for="case in caseItems">
-												<a href="#" v-bind:data-id = "case.Id">{{case.Title}}</a>
+												<a href="#" v-bind:data-id="case.Id">{{case.Title}}</a>
 											</li>
 										</ul>
 									</div>
@@ -314,7 +314,7 @@
 								{{{newsDetailContent.Content}}}
 							</article>
 						</section>
-						<section id="case-detail" v-show="show" transition = "fade">
+						<section id="case-detail" v-show="show" transition="fade">
 							<article>
 								<h3>{{caseDetailContent.Title}}</h3>
 								<p>{{caseDetailContent.Create_Time}}</p>
@@ -322,7 +322,11 @@
 								{{{caseDetailContent.Content}}}
 							</article>
 						</section>
-						<section id="index-footer">
+						<section id="show-error" v-show = "show">
+							<h3>哎呀 好像没有网哎！</h3>
+							<p><a href="#" onclick="location.reload()">点击刷新</a></p>
+						</section>
+						<section id="index-footer" v-show = "show">
 							<!--合作伙伴-->
 							<div class="mui-card" id="company-partners">
 								<!--页眉，放置标题-->

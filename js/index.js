@@ -67,31 +67,35 @@ headVm.$watch('h1Text', function(val) {
 	}).addClass('menu-active');
 });
 
+var errorVm = new Vue({
+	el: '#show-error',
+	data: {
+		show: false,
+	}
+});
+
 var indexFooterVm = new Vue({
 	el: '#index-footer',
 	data: {
+		show: true,
 		partnerItems: [], //合作伙伴
 		footerInfo: { //底部信息
-			address: "",
-			fax: ""
+			address: "暂无数据",
+			fax: "暂无数据"
 		},
 	},
 	methods: {
 		getPartnerSuccess: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("partenerData", data);
 				this.partnerItems = [data.splice(0, 3), data.splice(0, 3), data.splice(0, 3)];
-			} else {
-				console.log("数据不存在");
 			}
 		},
 		getfooterInfoSuccess: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("footerInfoData", data);
 				this.footerInfo.address = data[0].Address;
 				this.footerInfo.fax = data[0].Fax;
-			} else {
-				console.log("数据不存在");
 			}
 		},
 	},
@@ -101,8 +105,17 @@ var indexFooterVm = new Vue({
 			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess); //底部信息处理
 
 		} else {
-			this.getPartnerSuccess(MylocalStorage.getParseItem("partenerData"));
-			this.getfooterInfoSuccess(MylocalStorage.getParseItem("footerInfoData"));
+			if(localStorage["partenerData"] && localStorage["footerInfoData"]) {
+				console.log(MylocalStorage.getParseItem("partenerData"));
+				this.getPartnerSuccess(MylocalStorage.getParseItem("partenerData"));
+				this.getfooterInfoSuccess(MylocalStorage.getParseItem("footerInfoData"));
+			} else {
+
+				this.show = false;
+				errorVm.show = true;
+
+			}
+
 		}
 	}
 });
@@ -119,38 +132,38 @@ var mainVm = new Vue({ //主页的vue实例
 	},
 	methods: {
 		getBannerSuccess: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("bannerData", data);
 				this.sliderImgs = data;
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
 		getHonor1Success: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("honor1Data", data);
 				this.honorImgs = [data.splice(0, 4), data];
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
 		getNewsByType: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("newsType2Data", data);
 				this.newsItems = data;
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
 		getCaseSuccess: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("caseData", data);
 				this.caseItems = data;
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
@@ -164,10 +177,17 @@ var mainVm = new Vue({ //主页的vue实例
 				}); //公司动态处理ajax
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCase.ashx", this.getCaseSuccess); //成功案例处理
 			} else {
-				this.getBannerSuccess(MylocalStorage.getParseItem("bannerData"));
-				this.getHonor1Success(MylocalStorage.getParseItem("honor1Data"));
-				this.getNewsByType(MylocalStorage.getParseItem("newsType2Data"));
-				this.getCaseSuccess(MylocalStorage.getParseItem("caseData"));
+				if(localStorage["bannerData"] && localStorage["honor1Data"] && localStorage["newsType2Data"] && localStorage["caseData"]) {
+					this.getBannerSuccess(MylocalStorage.getParseItem("bannerData"));
+					this.getHonor1Success(MylocalStorage.getParseItem("honor1Data"));
+					this.getNewsByType(MylocalStorage.getParseItem("newsType2Data"));
+					this.getCaseSuccess(MylocalStorage.getParseItem("caseData"));
+				} else {
+
+					this.show = false;
+					errorVm.show = true;
+
+				}
 			}
 		}
 	}
@@ -185,7 +205,7 @@ var aboutUsVm = new Vue({
 	},
 	methods: {
 		getAboutUsInfo: function(data) {
-			if(data) {
+			if(data.length) {
 
 				MylocalStorage.setParseItem("aboutUsData", data);
 				this.companyInfoImg1 = data[0].Image_Url;
@@ -195,7 +215,7 @@ var aboutUsVm = new Vue({
 				this.companyCulture = data[0].Enterprise_Culture.replace(/<[^>]+>/g, "");
 				this.companyCulture = [this.companyCulture.split("").splice(0, 14).join(""), this.companyCulture.split("").splice(14).join("")];
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
@@ -203,7 +223,15 @@ var aboutUsVm = new Vue({
 			if(navigator.onLine) {
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetInformation.ashx", this.getAboutUsInfo);
 			} else {
-				this.getAboutUsInfo(MylocalStorage.getParseItem("aboutUsData"));
+				if(localStorage["aboutUsData"]) {
+
+					this.getAboutUsInfo(MylocalStorage.getParseItem("aboutUsData"));
+				} else {
+
+					this.show = false;
+					errorVm.show = true;
+
+				}
 			}
 		}
 	}
@@ -218,21 +246,21 @@ var newsCenterVm = new Vue({
 	},
 	methods: {
 		getNewsInfo1: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("newsInfo1Data", data);
 				this.newsInfo = this.newsInfo.concat(data.splice(2));
 
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
 		getNewsInfo2: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("newsInfo2Data", data);
 				this.newsInfo = this.newsInfo.concat(data);
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
@@ -246,8 +274,15 @@ var newsCenterVm = new Vue({
 					typeId: 1
 				});
 			} else {
-				this.getNewsInfo1(MylocalStorage.getParseItem("newsInfo1Data"));
-				this.getNewsInfo2(MylocalStorage.getParseItem("newsInfo2Data"));
+				if(localStorage["newsInfo1Data"] && localStorage["newsInfo2Data"]) {
+					this.getNewsInfo1(MylocalStorage.getParseItem("newsInfo1Data"));
+					this.getNewsInfo2(MylocalStorage.getParseItem("newsInfo2Data"));
+				} else {
+
+					this.show = false;
+					errorVm.show = true;
+
+				}
 			}
 		}
 	}
@@ -286,7 +321,7 @@ var companyServiceVm = new Vue({
 	},
 	methods: {
 		getServiceInfo: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("serviceInfoData", data);
 				this.serviceText = [];
 				for(var i = 0; i < 3; i++) {
@@ -302,7 +337,7 @@ var companyServiceVm = new Vue({
 
 		},
 		getSelectInfo: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("selectInfoData", data);
 				this.serviceText2 = [];
 				for(var i = 0; i < 3; i++) {
@@ -321,8 +356,15 @@ var companyServiceVm = new Vue({
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/select_InfoNoimg.ashx", this.getSelectInfo);
 
 			} else {
-				this.getServiceInfo(MylocalStorage.getParseItem("serviceInfoData"));
-				this.getSelectInfo(MylocalStorage.getParseItem("selectInfoData"));
+				if(localStorage["serviceInfoData"] && localStorage["selectInfoData"]) {
+					this.getServiceInfo(MylocalStorage.getParseItem("serviceInfoData"));
+					this.getSelectInfo(MylocalStorage.getParseItem("selectInfoData"));
+				} else {
+
+					this.show = false;
+					errorVm.show = true;
+
+				}
 			}
 
 		}
@@ -338,7 +380,7 @@ var companyCaseVm = new Vue({
 	},
 	methods: {
 		getCases: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("casePageData", data);
 				this.caseItems = data;
 
@@ -353,7 +395,14 @@ var companyCaseVm = new Vue({
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCaseAll.ashx", this.getCases);
 
 			} else {
-				this.getCases(MylocalStorage.getParseItem("casePageData"));
+				if(localStorage["casePageData"]) {
+					this.getCases(MylocalStorage.getParseItem("casePageData"));
+				} else {
+
+					this.show = false;
+					errorVm.show = true;
+
+				}
 			}
 
 		}
@@ -368,12 +417,12 @@ var joinUsVm = new Vue({
 	},
 	methods: {
 		getJob: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("jobData", data);
 				this.jobItems = data.splice(1);
 
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
@@ -382,7 +431,14 @@ var joinUsVm = new Vue({
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetJob.ashx", this.getJob);
 
 			} else {
-				this.getJob(MylocalStorage.getParseItem("jobData"));
+				if(localStorage["jobData"]) {
+					this.getJob(MylocalStorage.getParseItem("jobData"));
+				} else {
+
+					this.show = false;
+					errorVm.show = true;
+
+				}
 			}
 
 		}
@@ -407,12 +463,12 @@ var contactUsVm = new Vue({
 	},
 	methods: {
 		getContactInfo: function(data) {
-			if(data) {
+			if(data.length) {
 				MylocalStorage.setParseItem("contactData", data);
 				this.contactInfo = data;
 
 			} else {
-				console.log("数据不存在");
+
 			}
 
 		},
@@ -422,18 +478,26 @@ var contactUsVm = new Vue({
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getContactInfo);
 
 			} else {
-				this.getContactInfo(MylocalStorage.getParseItem("contactData"));
+				if(localStorage["contactData"]) {
+					this.getContactInfo(MylocalStorage.getParseItem("contactData"));
+				} else {
+
+					this.show = false;
+					errorVm.show = true;
+
+				}
 			}
 
 		}
-	},
-	created: function() {
-
 	}
-})
+});
 contactUsVm.dataInit();
 
-
+//数据库测试区
+var db = openDatabase('testDB', '1.0', 'Test DB', 20 * 1024 * 1024);
+db.transaction(function(tx) {
+	tx.executeSql('CREATE TABLE IF NOT EXISTS news (typeId, content)');
+});
 var newsDetailVm = new Vue({
 	el: "#news-detail",
 	data: {
@@ -443,24 +507,47 @@ var newsDetailVm = new Vue({
 	},
 	methods: {
 		getNewsDetailContent: function(data) {
-
+			if(data.length) {
 				this.newsDetailContent = data[0];
+				that = this;
+				db.transaction(function(tx) {
+					tx.executeSql('DELETE FROM News where typeId = ' + that.newsDetailContent.Id);
+					tx.executeSql("INSERT INTO News (typeId, content) values(?,?)", [that.newsDetailContent.Id, JSON.stringify(that.newsDetailContent)]);
+				});
 				this.newsDetailContent.Create_Time = this.newsDetailContent.Create_Time.split('T')[0];
+			} else {
 
-
+			}
 
 		},
 		dataInit: function(typeId) {
-
+			if(navigator.onLine) {
 
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsDetail.ashx", this.getNewsDetailContent, {
 					Id: typeId
 				});
+			} else {
+				that = this;
+				db.transaction(function(tx) {
+
+					tx.executeSql('SELECT * FROM News where typeId=' + typeId, [], function(tx, results) {
+
+						if(results.rows.length) {
+							that.getNewsDetailContent([jQuery.parseJSON(results.rows[0].content)]);
+						} else {
+							that.getNewsDetailContent("");
+						}
+
+					}, null);
+				});
+			}
 
 		}
 	}
 });
-
+db.transaction(function(tx) {
+	tx.executeSql('CREATE TABLE IF NOT EXISTS cases (typeId, content)');
+});
 var caseDetailVm = new Vue({
 	el: "#case-detail",
 	data: {
@@ -470,19 +557,41 @@ var caseDetailVm = new Vue({
 	},
 	methods: {
 		getcaseDetailContent: function(data) {
-
+			if(data.length) {
 				this.caseDetailContent = data[0];
-				this.caseDetailContent.Create_Time = this.caseDetailContent.Create_Time.split('T')[0];
 
+				that = this;
+				db.transaction(function(tx) {
+					tx.executeSql('DELETE FROM cases where typeId = ' + that.caseDetailContent.Id);
+					tx.executeSql("INSERT INTO cases (typeId, content) values(?,?)", [that.caseDetailContent.Id, JSON.stringify(that.caseDetailContent)]);
+				});
+
+				that.caseDetailContent.Create_Time = that.caseDetailContent.Create_Time.split('T')[0];
+			} else {
+
+			}
 
 		},
 		dataInit: function(typeId) {
-
+			if(navigator.onLine) {
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCaseById.ashx", this.getcaseDetailContent, {
 					Id: typeId
 				});
+			} else {
+				that = this;
+				db.transaction(function(tx) {
 
+					tx.executeSql('SELECT * FROM cases where typeId=' + typeId, [], function(tx, results) {
 
+						if(results.rows.length) {
+							that.getcaseDetailContent([jQuery.parseJSON(results.rows[0].content)]);
+						} else {
+							that.getcaseDetailContent("");
+						}
+
+					}, null);
+				});
+			}
 		}
 	}
 });
