@@ -42,7 +42,7 @@ mui('.mui-scroll-wrapper').scroll({
 	deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 });
 
-var ajaxFunc = function(urlText, successFun, data) {
+var ajaxFunc = function(urlText, successFun, errorFunc, data ) {
 	jQuery.ajax({
 		url: urlText,
 		type: "POST",
@@ -50,7 +50,8 @@ var ajaxFunc = function(urlText, successFun, data) {
 		jsonp: "callback", //服务端用于接收callback调用的function名的参数
 		data: data || "",
 		timeout: 5000,
-		success: successFun
+		success: successFun,
+		error: errorFunc
 	});
 }; // ajax简化函数
 var headVm = new Vue({
@@ -89,6 +90,9 @@ var indexFooterVm = new Vue({
 			if(data.length) {
 				MylocalStorage.setParseItem("partenerData", data);
 				this.partnerItems = [data.splice(0, 3), data.splice(0, 3), data.splice(0, 3)];
+			} else {
+				this.show = false;
+				errorVm.show = true;
 			}
 		},
 		getfooterInfoSuccess: function(data) {
@@ -96,8 +100,15 @@ var indexFooterVm = new Vue({
 				MylocalStorage.setParseItem("footerInfoData", data);
 				this.footerInfo.address = data[0].Address;
 				this.footerInfo.fax = data[0].Fax;
+			} else {
+				this.show = false;
+				errorVm.show = true;
 			}
 		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
+		}
 	},
 	created: function() {
 		if(navigator.onLine) {
@@ -136,7 +147,8 @@ var mainVm = new Vue({ //主页的vue实例
 				MylocalStorage.setParseItem("bannerData", data);
 				this.sliderImgs = data;
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -145,7 +157,8 @@ var mainVm = new Vue({ //主页的vue实例
 				MylocalStorage.setParseItem("honor1Data", data);
 				this.honorImgs = [data.splice(0, 4), data];
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -154,7 +167,8 @@ var mainVm = new Vue({ //主页的vue实例
 				MylocalStorage.setParseItem("newsType2Data", data);
 				this.newsItems = data;
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -163,7 +177,8 @@ var mainVm = new Vue({ //主页的vue实例
 				MylocalStorage.setParseItem("caseData", data);
 				this.caseItems = data;
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -215,7 +230,8 @@ var aboutUsVm = new Vue({
 				this.companyCulture = data[0].Enterprise_Culture.replace(/<[^>]+>/g, "");
 				this.companyCulture = [this.companyCulture.split("").splice(0, 14).join(""), this.companyCulture.split("").splice(14).join("")];
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -236,7 +252,6 @@ var aboutUsVm = new Vue({
 		}
 	}
 });
-aboutUsVm.dataInit();
 
 var newsCenterVm = new Vue({
 	el: "#news-center",
@@ -251,7 +266,8 @@ var newsCenterVm = new Vue({
 				this.newsInfo = this.newsInfo.concat(data.splice(2));
 
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -260,7 +276,8 @@ var newsCenterVm = new Vue({
 				MylocalStorage.setParseItem("newsInfo2Data", data);
 				this.newsInfo = this.newsInfo.concat(data);
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -287,7 +304,6 @@ var newsCenterVm = new Vue({
 		}
 	}
 });
-newsCenterVm.dataInit();
 
 var companyServiceVm = new Vue({
 	el: "#company-service",
@@ -332,7 +348,8 @@ var companyServiceVm = new Vue({
 					});
 				}
 			} else {
-				console.log("数据错误");
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -347,7 +364,8 @@ var companyServiceVm = new Vue({
 					});
 				}
 			} else {
-				console.log("数据错误");
+				this.show = false;
+				errorVm.show = true;
 			}
 		},
 		dataInit: function() {
@@ -370,7 +388,6 @@ var companyServiceVm = new Vue({
 		}
 	}
 });
-companyServiceVm.dataInit();
 
 var companyCaseVm = new Vue({
 	el: '#company-cases',
@@ -385,7 +402,8 @@ var companyCaseVm = new Vue({
 				this.caseItems = data;
 
 			} else {
-				console.log("数据错误");
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -408,7 +426,7 @@ var companyCaseVm = new Vue({
 		}
 	}
 });
-companyCaseVm.dataInit();
+
 var joinUsVm = new Vue({
 	el: "#join-us",
 	data: {
@@ -422,7 +440,8 @@ var joinUsVm = new Vue({
 				this.jobItems = data.splice(1);
 
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -444,7 +463,6 @@ var joinUsVm = new Vue({
 		}
 	}
 })
-joinUsVm.dataInit();
 
 var contactUsVm = new Vue({
 	el: "#contact-us",
@@ -468,7 +486,8 @@ var contactUsVm = new Vue({
 				this.contactInfo = data;
 
 			} else {
-
+				this.show = false;
+				errorVm.show = true;
 			}
 
 		},
@@ -491,7 +510,6 @@ var contactUsVm = new Vue({
 		}
 	}
 });
-contactUsVm.dataInit();
 
 //数据库测试区
 var db = openDatabase('testDB', '1.0', 'Test DB', 20 * 1024 * 1024);
@@ -611,6 +629,9 @@ mui(".mui-off-canvas-left").on("tap", ".mui-table-view-cell", function(event) {
 
 	controlShow[jQuery.trim(jQuery('.menu-active').text())].show = false;
 	controlShow[event.target.innerText].show = true;
+
+	controlShow[event.target.innerText].dataInit();
+
 	headVm.h1Text = event.target.innerText;
 	mui('.mui-off-canvas-wrap').offCanvas().close();
 
