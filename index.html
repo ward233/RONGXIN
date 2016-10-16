@@ -25,7 +25,7 @@
 							</header>
 							<ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
 								<li class="mui-table-view-cell menu-active">
-									官方首页
+									融信科技
 
 								</li>
 								<li class="mui-table-view-cell">
@@ -305,7 +305,7 @@
 							</ul>
 						</section>
 						<section id="news-detail" v-show="show" transition="fade">
-							<img src="http://www.zjrxkj.com.cn/uploadFile/news/201608021146002503.jpg" class="model-img" />
+							<img v-bind:src="newsDetailContent.Image_Url" class="model-img" />
 							<article>
 								<h3>{{newsDetailContent.Title}}</h3>
 								<p><span>{{newsDetailContent.Author}}</span><span>{{newsDetailContent.Create_Time}}</span></p>

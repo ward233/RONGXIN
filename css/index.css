@@ -2,6 +2,10 @@ body {
 	font-family: "microsoft yahei" !important;
 }
 
+.news-list, .case-list {
+	width: 100%;
+}
+
 #company-news li {
 	padding: 6px 10px;
 	width: 100%;
