@@ -38,15 +38,17 @@ var ajaxFunc = function(urlText, successFun, errorFunc, data) {
 		dataType: "jsonp", //数据类型为jsonp
 		jsonp: "callback", //服务端用于接收callback调用的function名的参数
 		data: data || "",
-		timeout: 30000,
-		success: successFun,
+		timeout: 500,
+		success: function(data) {
+			if (data.length) {
+				successFun(data);
+			}
+		},
 		error: errorFunc
 	});
 };
 
 //以上为初始化区域
-
-
 
 //标题模块
 var headVm = new Vue({
@@ -77,40 +79,26 @@ var indexFooterVm = new Vue({
 	},
 	methods: {
 		getPartnerSuccess: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("partenerData", data);
-				this.partnerItems = [data.splice(0, 3), data.splice(0, 3), data.splice(0, 3)];
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
+			MylocalStorage.setParseItem("partenerData", data);
+			this.partnerItems = [data.splice(0, 3), data.splice(0, 3), data.splice(0, 3)];
 		},
 		getfooterInfoSuccess: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("footerInfoData", data);
-				this.footerInfo.address = data[0].Address;
-				this.footerInfo.fax = data[0].Fax;
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
+			MylocalStorage.setParseItem("footerInfoData", data);
+			this.footerInfo.address = data[0].Address;
+			this.footerInfo.fax = data[0].Fax;
 		},
 		dataInit: function() {
 			if (navigator.onLine) {
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", this.getPartnerSuccess, this.errorFunc); //合作伙伴处理
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess, this.errorFunc); //底部信息处理
-
 			} else {
 				if (localStorage["partenerData"] && localStorage["footerInfoData"]) {
 					this.getPartnerSuccess(MylocalStorage.getParseItem("partenerData"));
 					this.getfooterInfoSuccess(MylocalStorage.getParseItem("footerInfoData"));
 				} else {
-
 					this.show = false;
 					errorVm.show = true;
-
 				}
-
 			}
 		},
 		errorFunc: function() {
@@ -137,46 +125,21 @@ var mainVm = new Vue({ //主页的vue实例
 	},
 	methods: {
 		getBannerSuccess: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("bannerData", data);
-				this.sliderImgs = data;
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("bannerData", data);
+			this.sliderImgs = data;
 		},
 		getHonor1Success: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("honor1Data", data);
-				this.honorImgs = [data.splice(0, 4), data];
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("honor1Data", data);
+			this.honorImgs = [data.splice(0, 4), data];
 		},
 		getNewsByType: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("newsType2Data", data);
-				this.newsItems = data;
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("newsType2Data", data);
+			this.newsItems = data;
 		},
 		getCaseSuccess: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("caseData", data);
-				this.caseItems = data;
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("caseData", data);
+			this.caseItems = data;
 		},
-
 		dataInit: function() {
 			if (navigator.onLine) {
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetBanner.ashx", this.getBannerSuccess, this.errorFunc); //轮播图处理
@@ -192,10 +155,8 @@ var mainVm = new Vue({ //主页的vue实例
 					this.getNewsByType(MylocalStorage.getParseItem("newsType2Data"));
 					this.getCaseSuccess(MylocalStorage.getParseItem("caseData"));
 				} else {
-
 					this.show = false;
 					errorVm.show = true;
-
 				}
 			}
 		},
@@ -223,33 +184,22 @@ var aboutUsVm = new Vue({
 	},
 	methods: {
 		getAboutUsInfo: function(data) {
-			if (data.length) {
-
-				MylocalStorage.setParseItem("aboutUsData", data);
-				this.companyInfoImg1 = data[0].Image_Url;
-				this.companyInfoImg2 = data[0].CulturPicture_Url;
-
-				this.companyIntroduction = data[0].Introduction.replace(/<[^>]+>/g, "");
-				this.companyCulture = data[0].Enterprise_Culture.replace(/<[^>]+>/g, "");
-				this.companyCulture = [this.companyCulture.split("").splice(0, 14).join(""), this.companyCulture.split("").splice(14).join("")];
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("aboutUsData", data);
+			this.companyInfoImg1 = data[0].Image_Url;
+			this.companyInfoImg2 = data[0].CulturPicture_Url;
+			this.companyIntroduction = data[0].Introduction.replace(/<[^>]+>/g, "");
+			this.companyCulture = data[0].Enterprise_Culture.replace(/<[^>]+>/g, "");
+			this.companyCulture = [this.companyCulture.split("").splice(0, 14).join(""), this.companyCulture.split("").splice(14).join("")];
 		},
 		dataInit: function() {
 			if (navigator.onLine) {
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetInformation.ashx", this.getAboutUsInfo, this.errorFunc);
 			} else {
 				if (localStorage["aboutUsData"]) {
-
 					this.getAboutUsInfo(MylocalStorage.getParseItem("aboutUsData"));
 				} else {
-
 					this.show = false;
 					errorVm.show = true;
-
 				}
 			}
 		},
@@ -270,27 +220,15 @@ var newsCenterVm = new Vue({
 	},
 	methods: {
 		getNewsInfo1: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("newsInfo1Data", data);
-				this.newsInfo = this.newsInfo.concat(data.splice(2));
-
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("newsInfo1Data", data);
+			this.newsInfo = this.newsInfo.concat(data.splice(2));
 		},
 		getNewsInfo2: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("newsInfo2Data", data);
-				this.newsInfo = this.newsInfo.concat(data);
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("newsInfo2Data", data);
+			this.newsInfo = this.newsInfo.concat(data);
 		},
 		dataInit: function() {
+ 			this.newsInfo = [];
 			if (navigator.onLine) {
 
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo1, this.errorFunc, {
@@ -352,54 +290,39 @@ var companyServiceVm = new Vue({
 	},
 	methods: {
 		getServiceInfo: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("serviceInfoData", data);
-				this.serviceText = [];
-				for (var i = 0; i < 3; i++) {
-					this.serviceBackImg[i.toString()] = data[i].Image_Url;
-					this.serviceText.push({
-						title: data[i].Title,
-						content: data[i].Content.replace(/<[^>]+>/g, "")
-					});
-				}
-			} else {
-				this.show = false;
-				errorVm.show = true;
+			MylocalStorage.setParseItem("serviceInfoData", data);
+			this.serviceText = [];
+			for (var i = 0; i < 3; i++) {
+				this.serviceBackImg[i.toString()] = data[i].Image_Url;
+				this.serviceText.push({
+					title: data[i].Title,
+					content: data[i].Content.replace(/<[^>]+>/g, "")
+				});
 			}
-
 		},
 		getSelectInfo: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("selectInfoData", data);
-				this.serviceText2 = [];
-				for (var i = 0; i < 3; i++) {
-					this.serviceText2.push({
-						title: data[i].Title,
-						content: data[i].Content.replace(/<[^>]+>/g, "")
-					});
-				}
-			} else {
-				this.show = false;
-				errorVm.show = true;
+			MylocalStorage.setParseItem("selectInfoData", data);
+			this.serviceText2 = [];
+			for (var i = 0; i < 3; i++) {
+				this.serviceText2.push({
+					title: data[i].Title,
+					content: data[i].Content.replace(/<[^>]+>/g, "")
+				});
 			}
 		},
 		dataInit: function() {
 			if (navigator.onLine) {
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/service_InfoImg.ashx", this.getServiceInfo, this.errorFunc);
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/select_InfoNoimg.ashx", this.getSelectInfo, this.errorFunc);
-
 			} else {
 				if (localStorage["serviceInfoData"] && localStorage["selectInfoData"]) {
 					this.getServiceInfo(MylocalStorage.getParseItem("serviceInfoData"));
 					this.getSelectInfo(MylocalStorage.getParseItem("selectInfoData"));
 				} else {
-
 					this.show = false;
 					errorVm.show = true;
-
 				}
 			}
-
 		},
 		errorFunc: function() {
 			this.show = false;
@@ -418,32 +341,20 @@ var companyCaseVm = new Vue({
 	},
 	methods: {
 		getCases: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("casePageData", data);
-				this.caseItems = data;
-
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("casePageData", data);
+			this.caseItems = data;
 		},
 		dataInit: function() {
 			if (navigator.onLine) {
-
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCaseAll.ashx", this.getCases, this.errorFunc);
-
 			} else {
 				if (localStorage["casePageData"]) {
 					this.getCases(MylocalStorage.getParseItem("casePageData"));
 				} else {
-
 					this.show = false;
 					errorVm.show = true;
-
 				}
 			}
-
 		},
 		errorFunc: function() {
 			this.show = false;
@@ -462,31 +373,20 @@ var joinUsVm = new Vue({
 	},
 	methods: {
 		getJob: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("jobData", data);
-				this.jobItems = data.splice(1);
-
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("jobData", data);
+			this.jobItems = data.splice(1);
 		},
 		dataInit: function() {
 			if (navigator.onLine) {
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetJob.ashx", this.getJob, this.errorFunc);
-
 			} else {
 				if (localStorage["jobData"]) {
 					this.getJob(MylocalStorage.getParseItem("jobData"));
 				} else {
-
 					this.show = false;
 					errorVm.show = true;
-
 				}
 			}
-
 		},
 		errorFunc: function() {
 			this.show = false;
@@ -514,32 +414,20 @@ var contactUsVm = new Vue({
 	},
 	methods: {
 		getContactInfo: function(data) {
-			if (data.length) {
-				MylocalStorage.setParseItem("contactData", data);
-				this.contactInfo = data;
-
-			} else {
-				this.show = false;
-				errorVm.show = true;
-			}
-
+			MylocalStorage.setParseItem("contactData", data);
+			this.contactInfo = data;
 		},
 		dataInit: function() {
 			if (navigator.onLine) {
-
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getContactInfo, this.errorFunc);
-
 			} else {
 				if (localStorage["contactData"]) {
 					this.getContactInfo(MylocalStorage.getParseItem("contactData"));
 				} else {
-
 					this.show = false;
 					errorVm.show = true;
-
 				}
 			}
-
 		},
 		errorFunc: function() {
 			this.show = false;
@@ -564,41 +452,32 @@ var newsDetailVm = new Vue({
 	},
 	methods: {
 		getNewsDetailContent: function(data) {
-			if (data.length) {
-				this.newsDetailContent = data[0];
-				that = this;
-				db.transaction(function(tx) {
-					tx.executeSql('DELETE FROM News where typeId = ' + that.newsDetailContent.Id);
-					tx.executeSql("INSERT INTO News (typeId, content) values(?,?)", [that.newsDetailContent.Id, JSON.stringify(that.newsDetailContent)]);
-				});
-				this.newsDetailContent.Create_Time = this.newsDetailContent.Create_Time.split('T')[0];
-			} else {
-
-			}
-
+			this.newsDetailContent = data[0];
+			that = this;
+			db.transaction(function(tx) {
+				tx.executeSql('DELETE FROM News where typeId = ' + that.newsDetailContent.Id);
+				tx.executeSql("INSERT INTO News (typeId, content) values(?,?)", [that.newsDetailContent.Id, JSON.stringify(that.newsDetailContent)]);
+			});
+			this.newsDetailContent.Create_Time = this.newsDetailContent.Create_Time.split('T')[0];
 		},
 		dataInitByType: function(typeId) {
 			if (navigator.onLine) {
-
 				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsDetail.ashx", this.getNewsDetailContent, this.errorFunc, {
 					Id: typeId
 				});
 			} else {
 				that = this;
 				db.transaction(function(tx) {
-
 					tx.executeSql('SELECT * FROM News where typeId=' + typeId, [], function(tx, results) {
-
 						if (results.rows.length) {
 							that.getNewsDetailContent([jQuery.parseJSON(results.rows[0].content)]);
 						} else {
-							that.getNewsDetailContent("");
+							that.show = false;
+							errorVm.show = true;
 						}
-
 					}, null);
 				});
 			}
-
 		},
 		errorFunc: function() {
 			this.show = false;
@@ -624,19 +503,13 @@ var caseDetailVm = new Vue({
 	},
 	methods: {
 		getcaseDetailContent: function(data) {
-			if (data.length) {
-				this.caseDetailContent = data[0];
-
-				var that = this;
-				db.transaction(function(tx) {
-					tx.executeSql('DELETE FROM cases where typeId = ' + that.caseDetailContent.Id);
-					tx.executeSql("INSERT INTO cases (typeId, content) values(?,?)", [that.caseDetailContent.Id, JSON.stringify(that.caseDetailContent)]);
-				});
-
-				that.caseDetailContent.Create_Time = that.caseDetailContent.Create_Time.split('T')[0];
-			} else {
-
-			}
+			this.caseDetailContent = data[0];
+			var that = this;
+			db.transaction(function(tx) {
+				tx.executeSql('DELETE FROM cases where typeId = ' + that.caseDetailContent.Id);
+				tx.executeSql("INSERT INTO cases (typeId, content) values(?,?)", [that.caseDetailContent.Id, JSON.stringify(that.caseDetailContent)]);
+			});
+			that.caseDetailContent.Create_Time = that.caseDetailContent.Create_Time.split('T')[0];
 
 		},
 		dataInitByType: function(typeId) {
@@ -653,7 +526,8 @@ var caseDetailVm = new Vue({
 						if (results.rows.length) {
 							that.getcaseDetailContent([jQuery.parseJSON(results.rows[0].content)]);
 						} else {
-							that.getcaseDetailContent("");
+							that.show = false;
+							errorVm.show = true;
 						}
 
 					}, null);
@@ -684,8 +558,8 @@ var controlShow = {
 Object.keys(controlShow).forEach(function(element, index) {
 	controlShow[element].$watch('show', function(show) {
 		if (show === true) {
-			mui('.mui-scroll-wrapper').scroll()[1].scrollTo(0,0,0);
-		(this.dataInit && this.dataInit()); //如果模块有初始化方法 就初始化。
+			mui('.mui-scroll-wrapper').scroll()[1].scrollTo(0, 0, 0);
+			(this.dataInit && this.dataInit()); //如果模块有初始化方法 就初始化。
 			headVm.h1Text = this.name;
 		}
 	});
@@ -705,16 +579,11 @@ mui(".mui-off-canvas-left").on("tap", ".mui-table-view-cell", function(event) {
 	if (jQuery("#header-menu").hasClass('mui-icon-arrowleft')) {
 		jQuery("#header-menu").removeClass("mui-icon-arrowleft").addClass("mui-action-menu");
 	}
-
 	var activeVmText = headVm.h1Text;
 	var wantshowVmText = event.target.innerText;
-
 	controlShow[activeVmText].show = false;
 	controlShow[wantshowVmText].show = true;
-
 });
-
-
 
 var showDetail = function(className, modelVm) {
 	mui(className).on("tap", "a", function(event) {
@@ -736,9 +605,10 @@ mui(".mui-bar").on("tap", ".mui-icon-arrowleft", function() {
 	jQuery("#header-menu").removeClass("mui-icon-arrowleft").addClass("mui-action-menu");
 });
 
-jQuery(document).ajaxStart(function(){
+jQuery('#header .mui-spinner').hide();
+jQuery(document).ajaxStart(function() {
 	jQuery('#header .mui-spinner').show(0);
- });
- jQuery(document).ajaxStop(function(){
+});
+jQuery(document).ajaxStop(function() {
 	jQuery('#header .mui-spinner').hide(0);
- });
+});
