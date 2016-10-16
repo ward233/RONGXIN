@@ -42,7 +42,7 @@ mui('.mui-scroll-wrapper').scroll({
 	deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 });
 
-var ajaxFunc = function(urlText, successFun, errorFunc, data ) {
+var ajaxFunc = function(urlText, successFun, errorFunc, data) {
 	jQuery.ajax({
 		url: urlText,
 		type: "POST",
@@ -112,8 +112,8 @@ var indexFooterVm = new Vue({
 	},
 	created: function() {
 		if(navigator.onLine) {
-			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", this.getPartnerSuccess); //合作伙伴处理
-			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess); //底部信息处理
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", this.getPartnerSuccess, this.errorFunc); //合作伙伴处理
+			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess, this.errorFunc); //底部信息处理
 
 		} else {
 			if(localStorage["partenerData"] && localStorage["footerInfoData"]) {
@@ -185,12 +185,12 @@ var mainVm = new Vue({ //主页的vue实例
 
 		dataInit: function() {
 			if(navigator.onLine) {
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetBanner.ashx", this.getBannerSuccess); //轮播图处理
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetHonor1.ashx", this.getHonor1Success); //荣誉信息处理
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsByType, {
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetBanner.ashx", this.getBannerSuccess, this.errorFunc); //轮播图处理
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetHonor1.ashx", this.getHonor1Success, this.errorFunc); //荣誉信息处理
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsByType, this.errorFunc, {
 					typeId: 2
 				}); //公司动态处理ajax
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCase.ashx", this.getCaseSuccess); //成功案例处理
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCase.ashx", this.getCaseSuccess, this.errorFunc); //成功案例处理
 			} else {
 				if(localStorage["bannerData"] && localStorage["honor1Data"] && localStorage["newsType2Data"] && localStorage["caseData"]) {
 					this.getBannerSuccess(MylocalStorage.getParseItem("bannerData"));
@@ -204,6 +204,10 @@ var mainVm = new Vue({ //主页的vue实例
 
 				}
 			}
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 });
@@ -237,7 +241,7 @@ var aboutUsVm = new Vue({
 		},
 		dataInit: function() {
 			if(navigator.onLine) {
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetInformation.ashx", this.getAboutUsInfo);
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetInformation.ashx", this.getAboutUsInfo, this.errorFunc);
 			} else {
 				if(localStorage["aboutUsData"]) {
 
@@ -249,6 +253,10 @@ var aboutUsVm = new Vue({
 
 				}
 			}
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 });
@@ -284,10 +292,10 @@ var newsCenterVm = new Vue({
 		dataInit: function() {
 			if(navigator.onLine) {
 
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo1, {
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo1, this.errorFunc, {
 					typeId: 2
 				});
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo2, {
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsByType.ashx", this.getNewsInfo2, this.errorFunc, {
 					typeId: 1
 				});
 			} else {
@@ -301,6 +309,10 @@ var newsCenterVm = new Vue({
 
 				}
 			}
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 });
@@ -370,8 +382,8 @@ var companyServiceVm = new Vue({
 		},
 		dataInit: function() {
 			if(navigator.onLine) {
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/service_InfoImg.ashx", this.getServiceInfo);
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/select_InfoNoimg.ashx", this.getSelectInfo);
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/service_InfoImg.ashx", this.getServiceInfo, this.errorFunc);
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/select_InfoNoimg.ashx", this.getSelectInfo, this.errorFunc);
 
 			} else {
 				if(localStorage["serviceInfoData"] && localStorage["selectInfoData"]) {
@@ -385,6 +397,10 @@ var companyServiceVm = new Vue({
 				}
 			}
 
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 });
@@ -410,7 +426,7 @@ var companyCaseVm = new Vue({
 		dataInit: function() {
 			if(navigator.onLine) {
 
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCaseAll.ashx", this.getCases);
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCaseAll.ashx", this.getCases, this.errorFunc);
 
 			} else {
 				if(localStorage["casePageData"]) {
@@ -423,6 +439,10 @@ var companyCaseVm = new Vue({
 				}
 			}
 
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 });
@@ -447,7 +467,7 @@ var joinUsVm = new Vue({
 		},
 		dataInit: function() {
 			if(navigator.onLine) {
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetJob.ashx", this.getJob);
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetJob.ashx", this.getJob, this.errorFunc);
 
 			} else {
 				if(localStorage["jobData"]) {
@@ -460,6 +480,10 @@ var joinUsVm = new Vue({
 				}
 			}
 
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 })
@@ -494,7 +518,7 @@ var contactUsVm = new Vue({
 		dataInit: function() {
 			if(navigator.onLine) {
 
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getContactInfo);
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getContactInfo, this.errorFunc);
 
 			} else {
 				if(localStorage["contactData"]) {
@@ -507,6 +531,10 @@ var contactUsVm = new Vue({
 				}
 			}
 
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 });
