@@ -1,0 +1,23 @@
+{
+	"index.html": {
+		"resources": [
+			"js/jquery-3.1.1.js",
+			"fonts/mui.ttf",
+			"images/address.png",
+			"images/gzh2.png",
+			"images/joinus.jpg",
+			"css/index.css",
+			"images/service.jpg",
+			"js/vue.js",
+			"images/news.jpg",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"images/company1.jpg",
+			"images/about.jpg",
+			"images/case.jpg",
+			"js/index.js",
+			"images/company2.jpg",
+			"images/contact.jpg"
+		]
+	}
+}

@@ -105,32 +105,32 @@ var indexFooterVm = new Vue({
 				errorVm.show = true;
 			}
 		},
+		dataInit: function() {
+			if(navigator.onLine) {
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", this.getPartnerSuccess, this.errorFunc); //合作伙伴处理
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess, this.errorFunc); //底部信息处理
+
+			} else {
+				if(localStorage["partenerData"] && localStorage["footerInfoData"]) {
+					console.log(MylocalStorage.getParseItem("partenerData"));
+					this.getPartnerSuccess(MylocalStorage.getParseItem("partenerData"));
+					this.getfooterInfoSuccess(MylocalStorage.getParseItem("footerInfoData"));
+				} else {
+
+					this.show = false;
+					errorVm.show = true;
+
+				}
+
+			}
+		},
 		errorFunc: function() {
 			this.show = false;
 			errorVm.show = true;
 		}
-	},
-	created: function() {
-		if(navigator.onLine) {
-			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetPartner.ashx", this.getPartnerSuccess, this.errorFunc); //合作伙伴处理
-			ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetContent.ashx", this.getfooterInfoSuccess, this.errorFunc); //底部信息处理
-
-		} else {
-			if(localStorage["partenerData"] && localStorage["footerInfoData"]) {
-				console.log(MylocalStorage.getParseItem("partenerData"));
-				this.getPartnerSuccess(MylocalStorage.getParseItem("partenerData"));
-				this.getfooterInfoSuccess(MylocalStorage.getParseItem("footerInfoData"));
-			} else {
-
-				this.show = false;
-				errorVm.show = true;
-
-			}
-
-		}
 	}
 });
-
+indexFooterVm.dataInit();
 var mainVm = new Vue({ //主页的vue实例
 	el: 'main',
 	data: {
@@ -569,7 +569,7 @@ var newsDetailVm = new Vue({
 		dataInit: function(typeId) {
 			if(navigator.onLine) {
 
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsDetail.ashx", this.getNewsDetailContent, {
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetNewsDetail.ashx", this.getNewsDetailContent, this.errorFunc, {
 					Id: typeId
 				});
 			} else {
@@ -588,6 +588,10 @@ var newsDetailVm = new Vue({
 				});
 			}
 
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 });
@@ -620,7 +624,7 @@ var caseDetailVm = new Vue({
 		},
 		dataInit: function(typeId) {
 			if(navigator.onLine) {
-				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCaseById.ashx", this.getcaseDetailContent, {
+				ajaxFunc("http://www.zjrxkj.com.cn/Ajax/GetCaseById.ashx", this.getcaseDetailContent, this.errorFunc, {
 					Id: typeId
 				});
 			} else {
@@ -638,6 +642,10 @@ var caseDetailVm = new Vue({
 					}, null);
 				});
 			}
+		},
+		errorFunc: function() {
+			this.show = false;
+			errorVm.show = true;
 		}
 	}
 });
@@ -657,7 +665,7 @@ mui(".mui-off-canvas-left").on("tap", ".mui-table-view-cell", function(event) {
 
 	controlShow[jQuery.trim(jQuery('.menu-active').text())].show = false;
 	controlShow[event.target.innerText].show = true;
-
+	indexFooterVm.dataInit();
 	controlShow[event.target.innerText].dataInit();
 
 	headVm.h1Text = event.target.innerText;
