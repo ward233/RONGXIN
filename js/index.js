@@ -702,8 +702,11 @@ headVm.$watch('h1Text', function(val) {
 //侧栏切换功能语句
 mui(".mui-off-canvas-left").on("tap", ".mui-table-view-cell", function(event) {
 	mui('.mui-off-canvas-wrap').offCanvas().close();
+	if (jQuery("#header-menu").hasClass('mui-icon-arrowleft')) {
+		jQuery("#header-menu").removeClass("mui-icon-arrowleft").addClass("mui-action-menu");
+	}
 
-	var activeVmText = jQuery.trim(jQuery('.menu-active').text());
+	var activeVmText = headVm.h1Text;
 	var wantshowVmText = event.target.innerText;
 
 	controlShow[activeVmText].show = false;
